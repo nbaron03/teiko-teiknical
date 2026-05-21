@@ -79,7 +79,7 @@ The data is loaded into a SQLite database with two related tables, defined in `s
 | time_from_treatment_start | INTEGER | 0 / 7 / 14 days |
 | b_cell, cd8_t_cell, cd4_t_cell, nk_cell, monocyte | INTEGER | Raw cell counts |
 
-**Rationale**
+**Rationale**\
 The CSV is flat — each subject's demographics are repeated across their three timepoint rows. Splitting subject-level attributes into their own table removes that duplication, and the foreign key on `subject_id` rejoins them when a query needs both. The cell counts stay as columns on `samples` (wide format) rather than a separate long-format table, because for a fixed panel of five populations the wide layout is simpler to query.
 
 **Scaling**

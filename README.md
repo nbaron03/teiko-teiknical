@@ -79,10 +79,10 @@ The data is loaded into a SQLite database with two related tables, defined in `s
 | time_from_treatment_start | INTEGER | 0 / 7 / 14 days |
 | b_cell, cd8_t_cell, cd4_t_cell, nk_cell, monocyte | INTEGER | Raw cell counts |
 
-**Rationale**\ 
+**Rationale**
 The CSV is flat — each subject's demographics are repeated across their three timepoint rows. Splitting subject-level attributes into their own table removes that duplication, and the foreign key on `subject_id` rejoins them when a query needs both. The cell counts stay as columns on `samples` (wide format) rather than a separate long-format table, because for a fixed panel of five populations the wide layout is simpler to query.
 
-**Scaling**\
+**Scaling**
 - Subject attributes are stored once per subject, not per sample. Adding new timepoints adds one row to `samples` instead of a full re-copy of demographics — meaningful at scale, and a guarantee that no two rows can disagree on a subject's age or sex.
 - `project` is a column, not a separate table per project. Queries like "samples per project" or "responders by project" are `GROUP BY project` and don't change as the number of projects grows. Adding a new project is one row of data, not a schema migration.
 - Common analytical filters (`condition`, `treatment`, `sample_type`, `time_from_treatment_start`) live on indexable columns, so cohort queries stay fast as the data grows.

@@ -29,6 +29,23 @@ Link: [https://loblaw-bio-nick.streamlit.app/](https://loblaw-bio-nick.streamlit
 
 ## Overview
 
+###Code Structure
+The repository is organized around a one-script-per-question principle:
+.
+├── load_data.py           # builds the SQLite database from the CSV (Part 1)
+├── schema.sql             # the CREATE TABLE statements
+├── analysis/
+│   ├── frequencies.py     # Part 2
+│   ├── responders.py      # Part 3
+│   └── baseline.py        # Part 4
+├── dashboard/
+│   └── app.py             # Streamlit dashboard
+├── data/
+│   └── cell-count.csv     # input data
+└── outputs/               # generated CSVs and the boxplot PNG
+
+Each analysis script answers one question from the spec and writes its results to `outputs/` as CSVs (or a PNG, for the plot). The dashboard then reads those files — it does not recompute anything. This separation keeps the analysis logic in one place: if a number ever needs to change, the fix happens in the analysis script and `make pipeline` regenerates the outputs the dashboard reads.
+
 **Part 1: Data Management**\
 In order to structure/organize the data into a relational database schema, I decided to split the CSV into two related tables.
 The first table, subjects, holds the patient information: demographics, condition, treatment, response.

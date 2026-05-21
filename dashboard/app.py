@@ -127,7 +127,7 @@ with col_proj:
 
 breakdown = data["breakdown"]
 with col_resp:
-    st.subheader("By response")
+    st.subheader("By b-cell response")
     st.dataframe(
         breakdown[breakdown["category"] == "response"][["value", "n_subjects"]],
         hide_index=True, use_container_width=True,
